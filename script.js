@@ -1,19 +1,29 @@
 //your JS code here. If required.
-// List of 7 sounds (names should match the files in 'sounds' folder)
+let currentAudio = null;
 
+// Handle playing sound
+document.querySelectorAll('.btn').forEach(button => {
+  button.addEventListener('click', () => {
+    const soundFile = button.getAttribute('data-sound');
 
-const container = document.getElementById('soundButtons');
+    // Stop any currently playing sound before playing a new one
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+    }
 
-sounds.forEach(sound => {
-  // Create button for each sound
-  const btn = document.createElement('button');
-  btn.innerText = sound.charAt(0).toUpperCase() + sound.slice(1); // Capitalize
-
-  // Play sound on click
-  btn.addEventListener('click', () => {
-    const audio = new Audio(`sounds/${sound}.mp3`);
-    audio.play();
+    // Play the new sound
+    currentAudio = new Audio(`sounds/${soundFile}`);
+    currentAudio.play();
   });
+});
 
-  container.appendChild(btn);
+// Handle stop button
+document.querySelector('.stop').addEventListener('click', () => {
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+    currentAudio = null;
+  }
+});
 });
